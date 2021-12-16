@@ -68,7 +68,11 @@ let str_condition l =
 
 let str_assert s = "(assert " ^ s ^ ")"
 
-let str_assert_forall n s = "TODO" (* À compléter *)
+let str_assert_forall n s =
+  let rec aux i =
+    if i < n then ("(x" ^ (string_of_int i) ^ " Int)")
+    else ("(x" ^ (string_of_int i) ^ " Int) ") ^ (aux (i+1))
+  in str_assert ("(forall (" ^ aux 0 ^ "))") ;;
 
 (* Question 4. Nous donnons ci-dessous une définition possible de la
    fonction smt_lib_of_wa. Complétez-la en écrivant les définitions de
@@ -80,6 +84,8 @@ let smtlib_of_wa p =
     ^"; on déclare le symbole non interprété de relation Invar\n"
     ^"(declare-fun Invar (" ^ string_repeat "Int " n ^  ") Bool)" in
   let loop_condition p =
+    match p 
+    |
     "; la relation Invar est un invariant de boucle\n"
     ^"TODO" (* À compléter *) in
   let initial_condition p =
