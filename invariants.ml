@@ -22,16 +22,24 @@ type program = {nvars : int;
 
 let x n = "x" ^ string_of_int n
 
-(* Question 1. Écrire des fonctions `str_of_term` et `str_of_term` qui
+(* Question 1. Écrire des fonctions `str_of_term` et `str_of_test` qui
    convertissent des termes et des tests en chaînes de caractères du
    format SMTLIB.
 
   Par exemple, str_of_term (Var 3) retourne "x3", str_of_term (Add
    (Var 1, Const 3)) retourne "(+ x1 3)" et str_of_test (Equals (Var
    2, Const 2)) retourne "(= x2 2)".  *)
-let rec str_of_term t = "TODO" (* À compléter *)
+let rec str_of_term t =
+  match t with
+  | Const(i) -> string_of_int i
+  | Var(i) -> x i
+  | Add(t1, t2) -> "(+ " ^ (str_of_term t1) ^ " " ^ (str_of_term t2) ^ ")"
+  | Mult(t1, t2) -> "(* " ^ (str_of_term t1) ^ " " ^ (str_of_term t2) ^ ")"
 
-let str_of_test t = "TODO" (* À compléter *)
+let str_of_test t =
+  match t with
+  | Equals(t1, t2) -> "(=" ^ str_of_term t1 ^ " " ^ str_of_term t2 ^ ")"
+  | LessThan(t1, t2) -> "(<" ^ str_of_term t1 ^ " " ^ str_of_term t2 ^ ")"
 
 let string_repeat s n =
   Array.fold_left (^) "" (Array.make n s)
@@ -41,7 +49,14 @@ let string_repeat s n =
    exprime que le tuple (t1, ..., tk) est dans l'invariant.  Par
    exemple, str_condition [Var 1; Const 10] retourne "(Invar x1 10)".
    *)
-let str_condition l = "TODO" (* À compléter *)
+let str_condition l = 
+  let rec repeat l r =
+    match l with 
+    | [] -> r ^ ")"
+    | e::l -> repeat l (r ^ " " ^ (str_of_term e))
+  in match l with 
+  | e::l -> repeat l "(Invar "
+  | _ -> failwith ("Term expected") 
 
 (* Question 3. Écrire une fonction str_assert_for_all qui prend en
    argument un entier n et une chaîne de caractères s, et retourne
