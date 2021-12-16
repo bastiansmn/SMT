@@ -97,7 +97,7 @@ let smtlib_of_wa p =
   let loop_condition p =
     match p with
     | { nvars=n; mods=mods; loopcond=lc } -> 
-    let temp = "\n\t(=> (and (Invar" ^ string_of_vars 1 n ^") (" ^ str_of_test lc ^")) " ^ str_condition mods ^ ")" in
+    let temp = "\n\t(=> (and (Invar" ^ string_of_vars 1 n ^") " ^ str_of_test lc ^") " ^ str_condition mods ^ ")" in
     "; la relation Invar est un invariant de boucle\n"
     ^(str_assert_forall n temp) in
   let initial_condition p =
@@ -106,7 +106,7 @@ let smtlib_of_wa p =
   let assertion_condition p =
     match p with 
     | { nvars=n; loopcond=lc; assertion=assertion } ->
-    let temp = "\n\t(=> (and (Invar" ^ string_of_vars 1 n ^") (" ^ str_of_nottest lc ^")) " ^ (str_of_test assertion) ^ ")" in
+    let temp = "\n\t(=> (and (Invar" ^ string_of_vars 1 n ^") " ^ str_of_nottest lc ^") " ^ (str_of_test assertion) ^ ")" in
     "; l'assertion finale est vérifiée\n"
     ^(str_assert_forall n temp) in
   let call_solver =
@@ -123,9 +123,6 @@ let p1 = {nvars = 2;
           loopcond = LessThan ((Var 1),(Const 3));
           assertion = Equals ((Var 2),(Const 9))}
 
-
-
-
 (* Question 5. Vérifiez que votre implémentation donne un fichier
    SMTLIB qui est équivalent au fichier que vous avez écrit à la main
    dans l'exercice 1. Ajoutez dans la variable p2 ci-dessous au moins
@@ -135,7 +132,7 @@ let p1 = {nvars = 2;
 let p2 = {
   nvars = 3;
   inits = [Const 0; Const 0; Const 10];
-  mods=[Add(Var(1), Const(1)); Add(Var(2), Const(2))];
+  mods=[Add(Var(1), Const(1)); Add(Var(2), Const(2)); Add(Var(3), Const(1))];
   loopcond = LessThan(Mult(Const(2),Var(1)),Var(3));
   assertion = LessThan ((Var 1),(Var 2));
 }
