@@ -84,8 +84,8 @@ let smtlib_of_wa p =
     ^"; on déclare le symbole non interprété de relation Invar\n"
     ^"(declare-fun Invar (" ^ string_repeat "Int " n ^  ") Bool)" in
   let loop_condition p =
-    match p 
-    |
+    match p with
+    |x::y -> "(=>"^"(" 
     "; la relation Invar est un invariant de boucle\n"
     ^"TODO" (* À compléter *) in
   let initial_condition p =
