@@ -72,7 +72,7 @@ let str_assert_forall n s =
   let rec aux i =
     if i < n then ("(x" ^ (string_of_int i) ^ " Int)")
     else ("(x" ^ (string_of_int i) ^ " Int) ") ^ (aux (i+1))
-  in str_assert ("(forall (" ^ aux 0 ^ "))") ;;
+  in str_assert ("(forall (" ^ aux 0 ^ ")" ^ s ^ ")") ;;
 
 (* Question 4. Nous donnons ci-dessous une définition possible de la
    fonction smt_lib_of_wa. Complétez-la en écrivant les définitions de
